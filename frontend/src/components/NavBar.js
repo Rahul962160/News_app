@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+  const isAuthenticated = !!localStorage.getItem("token");
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-lg  navbar-dark bg-dark">
@@ -69,12 +70,28 @@ const NavBar = () => {
 
             {/* Login & Signup Buttons */}
             <div className="d-flex">
-              <Link className="btn btn-outline-light me-2" to="/login">
-                Login
-              </Link>
-              <Link className="btn btn-primary" to="/signup">
-                Signup
-              </Link>
+              {!isAuthenticated ? ( // Show buttons only if not logged in
+                <>
+                  <Link className="btn btn-outline-light me-2" to="/login">
+                    Login
+                  </Link>
+                  <Link className="btn btn-primary" to="/signup">
+                    Signup
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      localStorage.removeItem("token"); // Logout logic
+                      window.location.reload(); // Refresh page after logout
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
