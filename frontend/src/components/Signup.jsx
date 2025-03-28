@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+const navigate = useNavigate();
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -28,7 +29,7 @@ const Signup = () => {
       setError("");
       // Redirect after 3 seconds
       setTimeout(() => {
-        window.location.href = "/login";
+        navigate("/login");
       }, 3000);
     } catch (err) {
       setError(
