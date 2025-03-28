@@ -35,7 +35,9 @@ const transporter = nodemailer.createTransport({
 // dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3002", credentials: true }));
+app.use(
+  cors({ origin: "https://newss-app-4pp3.onrender.com", credentials: true })
+);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -73,7 +75,7 @@ app.post("/api/auth/signup", async (req, res) => {
     await newUser.save();
 
     // Send verification email
-    const verificationLink = `http://localhost:5000/api/auth/verify/${verificationToken}`;
+    const verificationLink = `https://news-app-akvl.onrender.com/api/auth/verify/${verificationToken}`;
     await transporter.sendMail({
       from: process.env.USER,
       to: email,
@@ -94,7 +96,9 @@ app.get("/api/auth/verify/:token", async (req, res) => {
     const user = await User.findOne({ verificationToken: token });
 
     if (!user) {
-      return res.redirect("http://localhost:3002/login?verified=false");
+      return res.redirect(
+        "https://newss-app-4pp3.onrender.com/login?verified=false"
+      );
     }
 
     user.isVerified = true;
@@ -102,10 +106,10 @@ app.get("/api/auth/verify/:token", async (req, res) => {
     await user.save();
 
     // Redirect to login page with success message
-    res.redirect("http://localhost:3002/login?verified=true");
+    res.redirect("https://newss-app-4pp3.onrender.com/login?verified=true");
   } catch (err) {
     console.error(err);
-    res.redirect("http://localhost:3002/login?verified=false");
+    res.redirect("https://newss-app-4pp3.onrender.com/login?verified=false");
   }
 });
 
