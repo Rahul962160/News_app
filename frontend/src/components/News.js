@@ -20,10 +20,14 @@ const News = ({
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  // Proxy to avoid CORS issues in deployed sites
+  const proxyUrl = "https://api.allorigins.win/raw?url=";
+
   const updateNews = useCallback(async () => {
     setProgress(10);
 
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=1&pageSize=${pageSize}`;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=1&pageSize=${pageSize}`;
+    const url = proxyUrl + encodeURIComponent(apiUrl);
 
     setLoading(true);
 
@@ -47,18 +51,19 @@ const News = ({
     } catch (error) {
       console.error("Error fetching news:", error);
     }
-  }, [country, category, pageSize, setProgress]); // ✅ Dependencies added correctly
+  }, [country, category, pageSize, setProgress]);
 
   useEffect(() => {
     updateNews();
-  }, [updateNews]); // Runs when category or country change
+  }, [updateNews]);
 
   // Fetch more news for infinite scrolling
   const fetchMoreData = async () => {
     const nextPage = page + 1;
     setPage(nextPage);
 
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=${nextPage}&pageSize=${pageSize}`;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=${nextPage}&pageSize=${pageSize}`;
+    const url = proxyUrl + encodeURIComponent(apiUrl);
 
     try {
       let response = await fetch(url);
