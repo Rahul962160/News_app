@@ -35,7 +35,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="general"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="general"
                 />
               }
@@ -47,7 +47,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="business"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="business"
                 />
               }
@@ -59,7 +59,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="entertainment"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="entertainment"
                 />
               }
@@ -71,7 +71,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="general"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="general"
                 />
               }
@@ -83,7 +83,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="health"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="health"
                 />
               }
@@ -95,7 +95,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="science"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="science"
                 />
               }
@@ -107,7 +107,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="sports"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="sports"
                 />
               }
@@ -119,7 +119,7 @@ export default class App extends Component {
                   setProgress={this.setProgress}
                   key="technology"
                   pageSize={5}
-                  country="in"
+                  country="us"
                   category="technology"
                 />
               }
