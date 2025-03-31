@@ -35,6 +35,7 @@ const transporter = nodemailer.createTransport({
 // dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({ origin: "https://newss-app-4pp3.onrender.com", credentials: true })
 );
