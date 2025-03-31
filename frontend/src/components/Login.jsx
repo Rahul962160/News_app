@@ -17,6 +17,7 @@ const Login = () => {
     try {
       const res = await axios.post(
         "https://news-app-akvl.onrender.com/api/auth/login",
+        // "http://localhost:4000/api/auth/login",
         {
           email,
           password,

@@ -12,11 +12,12 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
+    // setMessage("");
+    // setError("");
     setMessage("Signing up... Please wait.");
     try {
       await axios.post("https://news-app-akvl.onrender.com/api/auth/signup", {
+        // await axios.post("http://localhost:4000/api/auth/signup", {
         name,
         email,
         password,

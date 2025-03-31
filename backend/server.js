@@ -6,6 +6,7 @@ const cors = require("cors");
 // const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+
 require("dotenv").config();
 
 // Nodemailer transporter setup
@@ -35,9 +36,10 @@ const transporter = nodemailer.createTransport({
 // dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({ origin: "https://newss-app-4pp3.onrender.com", credentials: true })
+  // cors({ origin: "http://localhost:3000", credentials: true })
 );
 
 mongoose
@@ -50,7 +52,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   password: String,
   isVerified: { type: Boolean, default: false },
-  verificationToken: String,
+  verificationToken: { type: String },
 });
 
 const User = mongoose.model("User", UserSchema);
@@ -64,6 +66,7 @@ app.post("/api/auth/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
+    console.log("Generated Token:", verificationToken);
 
     const newUser = new User({
       name,
@@ -72,11 +75,12 @@ app.post("/api/auth/signup", async (req, res) => {
       verificationToken,
       isVerified: false,
     });
-
+    console.log("User to be saved:", newUser);
     await newUser.save();
 
     // Send verification email
     const verificationLink = `https://news-app-akvl.onrender.com/api/auth/verify/${verificationToken}`;
+    // const verificationLink = `http://localhost:4000/api/auth/verify/${verificationToken}`;
     await transporter.sendMail({
       from: process.env.USER,
       to: email,
@@ -99,6 +103,7 @@ app.get("/api/auth/verify/:token", async (req, res) => {
     if (!user) {
       return res.redirect(
         "https://newss-app-4pp3.onrender.com/login?verified=false"
+        // "http://localhost:3000/login?verified=false"
       );
     }
 
@@ -108,9 +113,11 @@ app.get("/api/auth/verify/:token", async (req, res) => {
 
     // Redirect to login page with success message
     res.redirect("https://newss-app-4pp3.onrender.com/login?verified=true");
+    // res.redirect("http://localhost:3000/login?verified=true");
   } catch (err) {
     console.error(err);
     res.redirect("https://newss-app-4pp3.onrender.com/login?verified=false");
+    // res.redirect("http://localhost:3000/login?verified=false");
   }
 });
 
@@ -124,7 +131,7 @@ app.post("/api/auth/login", async (req, res) => {
   if (!user.isVerified)
     return res.status(403).json({ error: "Please verify your email first" });
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -134,5 +141,5 @@ app.post("/api/auth/login", async (req, res) => {
   res.json({ token });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
