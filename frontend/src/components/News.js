@@ -26,7 +26,7 @@ const News = ({
   const updateNews = useCallback(async () => {
     setProgress(10);
 
-    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=1&pageSize=${pageSize}`;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=c74590ae11774ecba474511f60dc259a&page=1&pageSize=${pageSize}`;
     const url = proxyUrl + encodeURIComponent(apiUrl);
 
     setLoading(true);
@@ -62,7 +62,7 @@ const News = ({
     const nextPage = page + 1;
     setPage(nextPage);
 
-    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=fcae3bcc558143be8bf97d8c219d6049&page=${nextPage}&pageSize=${pageSize}`;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=c74590ae11774ecba474511f60dc259a&page=${nextPage}&pageSize=${pageSize}`;
     const url = proxyUrl + encodeURIComponent(apiUrl);
 
     try {
